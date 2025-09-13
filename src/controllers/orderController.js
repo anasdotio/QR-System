@@ -5,9 +5,10 @@ const Order = require("../models/order");
 // Get all orders (admin only)
 const getOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("items.menuItem");
+    const orders = await Order.find().populate("items.menuId"); // ✅ correct field
     res.json(orders);
   } catch (err) {
+    console.error("Error fetching orders:", err.message);
     res.status(500).json({ message: "Error fetching orders" });
   }
 };

@@ -1,7 +1,18 @@
+// src/routes/adminRoutes.js
 const express = require("express");
-const router = express.Router();
-const adminController = require("../controllers/adminController");
+const { loginAdmin } = require("../controllers/adminController");
+const { getOrders, updateOrder } = require("../controllers/orderController");
+const { verifyAdmin } = require("../middleware/auth"); // ⬅️ use verifyAdmin
 
-router.post("/login", adminController.loginAdmin);
+const router = express.Router();
+
+// Admin login
+router.post("/login", loginAdmin);
+
+// Admin gets all orders
+router.get("/orders", verifyAdmin, getOrders);
+
+// Admin updates an order status
+router.put("/orders/:id", verifyAdmin, updateOrder);
 
 module.exports = router;
