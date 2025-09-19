@@ -1,15 +1,15 @@
 // src/controllers/orderController.js
 
-const Order = require("../models/order");
+const Order = require('../models/order');
 
 // Get all orders (admin only)
 const getOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate("items.menuId"); // ✅ correct field
+    const orders = await Order.find().populate('items.menuId'); // ✅ correct field
     res.json(orders);
   } catch (err) {
-    console.error("Error fetching orders:", err.message);
-    res.status(500).json({ message: "Error fetching orders" });
+    console.error('Error fetching orders:', err.message);
+    res.status(500).json({ message: 'Error fetching orders' });
   }
 };
 
@@ -20,7 +20,7 @@ const createOrder = async (req, res) => {
     await newOrder.save();
     res.status(201).json(newOrder);
   } catch (err) {
-    res.status(500).json({ message: "Error creating order" });
+    res.status(500).json({ message: 'Error creating order' });
   }
 };
 
@@ -31,11 +31,11 @@ const updateOrder = async (req, res) => {
     const updatedOrder = await Order.findByIdAndUpdate(
       id,
       { status: req.body.status },
-      { new: true }
+      { new: true },
     );
     res.json(updatedOrder);
   } catch (err) {
-    res.status(500).json({ message: "Error updating order" });
+    res.status(500).json({ message: 'Error updating order' });
   }
 };
 
