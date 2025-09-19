@@ -2,26 +2,14 @@ const express = require("express");
 const router = express.Router();
 const { verifyAdmin } = require("../middleware/auth"); // JWT middleware
 const Menu = require("../models/menu");
+const multer = require("multer");
+const { createMenuItem, getMenu } = require("../controllers/menuController");
 
-// Public - customers can see menu
-router.get("/", async (req, res) => {
-  try {
-    const items = await Menu.find();
-    res.json(items);
-  } catch (err) {
-    res.status(500).json({ msg: "Server error" });
-  }
-});
+const upload = multer({ storage: multer.memoryStorage() });
+
 
 // Protected - only admin can add item
-router.post("/", verifyAdmin, async (req, res) => {
-  try {
-    const newItem = new Menu(req.body);
-    await newItem.save();
-    res.json(newItem);
-  } catch (err) {
-    res.status(500).json({ msg: "Server error" });
-  }
-});
+router.post("/", verifyAdmin, upload.single("itemImage"), createMenuItem);
+router.get("/", getMenu);
 
 module.exports = router;
