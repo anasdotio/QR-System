@@ -5,7 +5,8 @@ const { v4: uuid } = require("uuid");
 exports.getMenu = async (req, res) => {
   try {
     const items = await Menu.find({ available: true }).sort({ createdAt: -1 });
-    if(!items && !items.length) return res.status(404).json({ msg: "No items found" });
+    if (!items && !items.length)
+      return res.status(404).json({ msg: "No items found" });
     res.json(items);
   } catch (err) {
     res.status(500).json({ error: err.message });
