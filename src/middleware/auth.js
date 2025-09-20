@@ -1,12 +1,12 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 
 // Middleware to verify token
 const verifyToken = (req, res, next) => {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // "Bearer <token>"
+  const authHeader = req.headers['authorization'];
+  const token = authHeader && authHeader.split(' ')[1]; // "Bearer <token>"
 
   if (!token) {
-    return res.status(401).json({ message: "No token, auth denied" });
+    return res.status(401).json({ message: 'No token, auth denied' });
   }
 
   try {
@@ -14,17 +14,17 @@ const verifyToken = (req, res, next) => {
     req.user = decoded; // attach user data to request
     next();
   } catch (err) {
-    res.status(403).json({ message: "Invalid token" });
+    res.status(403).json({ message: 'Invalid token' });
   }
 };
 
 // Middleware to verify admin
 const verifyAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
-    if (req.user && req.user.role === "admin") {
+    if (req.user && req.user.role === 'admin') {
       next();
     } else {
-      res.status(403).json({ message: "Access denied, admin only" });
+      res.status(403).json({ message: 'Access denied, admin only' });
     }
   });
 };

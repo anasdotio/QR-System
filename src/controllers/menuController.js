@@ -29,7 +29,7 @@ exports.createMenuItem = async (req, res) => {
       image: url,
     });
     await item.save();
-    res.json({ msg: "Menu item created", item });
+    res.json({ msg: 'Menu item created', item });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

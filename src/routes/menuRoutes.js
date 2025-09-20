@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 const { verifyAdmin } = require("../middleware/auth"); // JWT middleware
 const Menu = require("../models/menu");
