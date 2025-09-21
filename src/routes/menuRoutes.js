@@ -14,8 +14,8 @@ router.post(
   '/',
   verifyAdmin,
   upload.single('itemImage'),
-    menuValidation(),
-    validate,
+  menuValidation(),
+  validate,
   createMenuItem,
 );
 router.get('/', getMenu);

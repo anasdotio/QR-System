@@ -56,6 +56,7 @@ const updateOrder = async (req, res) => {
 
     res.json(updatedOrder);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: 'Error updating order' });
   }
 };
@@ -64,7 +65,10 @@ const updateOrder = async (req, res) => {
 const deleteOrder = async (req, res) => {
   try {
     const { id } = req.params;
-    await Order.findByIdAndDelete(id);
+    const deletedOrder = await Order.findByIdAndDelete(id);
+    if (!deletedOrder) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
     res.json({ message: 'Order deleted successfully' });
   } catch (err) {
     res.status(500).json({ message: 'Error deleting order' });
