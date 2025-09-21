@@ -1,4 +1,5 @@
-require('dotenv').config();
+const { config } = require('dotenv');
+config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const Admin = require('../models/admin');
@@ -8,7 +9,8 @@ const create = async () => {
     // Only connect if not already connected
     if (mongoose.connection.readyState === 0) {
       await mongoose.connect(
-        process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/qr-system',
+        process.env.MONGO_URI ||
+          'mongodb+srv://anasdevcode_db_user:AnAsKhAn2003@qrcluster.jirq5fl.mongodb.net/qr-system?retryWrites=true&w=majority&appName=QRCLUSTER',
       );
       console.log('✅ Connected to MongoDB');
     }

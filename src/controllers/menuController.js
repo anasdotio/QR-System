@@ -17,18 +17,22 @@ exports.createMenuItem = async (req, res) => {
   try {
     const { name, price, category, description } = req.body;
 
+    const isAlreadyExists = await Menu.findOne({ name });
+
+    if (isAlreadyExists)
+      return res.status(400).json({ msg: 'Menu item is already available' });
+
     const url = await uploadImage(req.file.buffer, uuid());
 
     if (!url) return res.status(400).json({ msg: 'Error uploading image' });
 
-    const item = new Menu({
+    const item = await Menu.create({
       name,
       price,
       category,
       description,
       image: url,
     });
-    await item.save();
     res.json({ msg: 'Menu item created', item });
   } catch (err) {
     res.status(500).json({ error: err.message });

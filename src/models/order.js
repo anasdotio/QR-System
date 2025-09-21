@@ -4,7 +4,7 @@ const itemSchema = new mongoose.Schema({
   menuId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Menu',
-    required: false,
+    required: true,
   },
   name: String,
   qty: Number,
