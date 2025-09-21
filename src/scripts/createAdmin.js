@@ -1,28 +1,39 @@
-require('dotenv').config();
+const { config } = require('dotenv');
+config();
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const Admin = require('../models/admin');
 
 const create = async () => {
   try {
-    await mongoose.connect(
-      process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/qr-system',
-    );
+    // Only connect if not already connected
+    if (mongoose.connection.readyState === 0) {
+      await mongoose.connect(
+        process.env.MONGO_URI ||
+          'mongodb+srv://anasdevcode_db_user:AnAsKhAn2003@qrcluster.jirq5fl.mongodb.net/qr-system?retryWrites=true&w=majority&appName=QRCLUSTER',
+      );
+      console.log('✅ Connected to MongoDB');
+    }
+
     const username = 'owner';
-    const plain = 'admin123'; // change after creation!
-    const hashed = await bcrypt.hash(plain, 10);
+    const plainPassword = 'admin123'; // 🚨 Change this after creation!
+    const hashedPassword = await bcrypt.hash(plainPassword, 10);
 
     const exists = await Admin.findOne({ username });
     if (exists) {
-      console.log('Admin already exists');
-      process.exit(0);
+      console.log('⚠️ Admin already exists. Skipping creation.');
+    } else {
+      await Admin.create({ username, password: hashedPassword, role: 'admin' });
+      console.log(
+        `✅ Admin created: username = "${username}", password = "${plainPassword}"`,
+      );
     }
-    await Admin.create({ username, password: hashed, role: 'admin' });
 
-    console.log('Admin created:', username, plain);
+    await mongoose.disconnect(); // ✅ Good practice
     process.exit(0);
   } catch (err) {
-    console.error(err);
+    console.error('❌ Error creating admin:', err);
+    await mongoose.disconnect(); // ensure disconnect on error too
     process.exit(1);
   }
 };
