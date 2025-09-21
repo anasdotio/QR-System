@@ -20,6 +20,7 @@ const createOrder = async (req, res) => {
     await newOrder.save();
     res.status(201).json(newOrder);
   } catch (err) {
+    console.log(err);
     res.status(500).json({ message: 'Error creating order' });
   }
 };
