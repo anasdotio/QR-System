@@ -15,7 +15,8 @@ exports.getMenu = async (req, res) => {
 
 exports.createMenuItem = async (req, res) => {
   try {
-    const { name, price, category, description } = req.body;
+    console.log(req.body);
+    const { name, Regular, Large, category, description } = req.body;
 
     const isAlreadyExists = await Menu.findOne({ name });
 
@@ -28,7 +29,7 @@ exports.createMenuItem = async (req, res) => {
 
     const item = await Menu.create({
       name,
-      price,
+      price: { Regular, Large },
       category,
       description,
       image: url,

@@ -14,14 +14,6 @@ exports.menuValidation = () => {
       .trim()
       .escape(),
 
-    body('price')
-      .notEmpty()
-      .withMessage('Price is required')
-      .isNumeric()
-      .withMessage('Price must be a number')
-      .isInt({ min: 0 })
-      .withMessage('Price must be a positive number'),
-
     body('category')
       .notEmpty()
       .withMessage('Category is required')
