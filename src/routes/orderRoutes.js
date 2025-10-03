@@ -17,10 +17,10 @@ const router = express.Router();
 
 // User creates an order
 router.post('/', createOrder);
-router.get('/', verifyAdmin, getOrders);
+router.get('/',  getOrders);
 router.patch(
   '/:id',
-  verifyAdmin,
+  // verifyAdmin,
   updateOrderValidation(),
   validate,
   updateOrder,
