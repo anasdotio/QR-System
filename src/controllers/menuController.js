@@ -34,7 +34,7 @@ exports.createMenuItem = async (req, res) => {
       description,
       image: url,
     });
-    res.json({ msg: 'Menu item created', item });
+    res.status(201).json({ msg: 'Menu item created', item });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
